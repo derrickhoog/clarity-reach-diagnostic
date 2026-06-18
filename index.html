@@ -1025,7 +1025,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx0gXY3gwGEkN-KVdrhh1-puulEUv977zBVcdEcyieO8EIY5Wnv59SgF-pjeV3Z6GFE/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwMAdpJFqKxQTfC_-nHpQ_6eEQSuNufezbKcPsAR12gr2unVp44tuXksYKGTych0LQc/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
@@ -1038,7 +1038,7 @@
     };
     ITEMS.forEach(function(item) {
       var val = session.answers[item.id];
-      row[item.id] = (val === "notsure") ? "N/A" : (val || "");
+      row[item.id] = (val === "notsure") ? "N/A" : (val !== undefined && val !== null ? String(val) : "");
     });
 
     if (statusEl) {
@@ -1046,11 +1046,14 @@
       statusEl.textContent = "Sending responses\u2026";
     }
 
+    // Use a form POST — Apps Script reads this reliably regardless of CORS
+    var form = new FormData();
+    form.append("data", JSON.stringify(row));
+
     fetch(SHEETS_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(row)
+      body: form
     }).then(function() {
       if (statusEl) {
         statusEl.style.color = "#2A6F4A";
@@ -1060,7 +1063,7 @@
       console.warn("Sheets submission failed:", e);
       if (statusEl) {
         statusEl.style.color = "#DD3434";
-        statusEl.textContent = "Couldn\u2019t send responses \u2014 please copy the URL and email it to your 5by5 contact.";
+        statusEl.textContent = "Couldn\u2019t send responses \u2014 please screenshot this page and send to your 5by5 contact.";
       }
     });
   }
