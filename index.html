@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clarity &amp; Reach — A Growth Ingredients Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F6F7F9;
+    --paper-warm: #FFFFFF;
+    --ink: #1C1C1C;
+    --ink-soft: #292929;
+    --structure: #5A5A5A;
+    --line: #E2E4E8;
+    --solid: #DD3434;
+    --solid-bg: #DD3434;
+    --shaky: #A48256;
+    --missing: #FFFFFF;
+    --notsure: #1C1C1C;
+    --accent: #DD3434;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Host Grotesk', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .grotesk { font-family: 'Host Grotesk', -apple-system, sans-serif; }
+
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  @media print {
+    body { background: #FFFFFF !important; }
+    .screen { display: block !important; }
+    #screen-start, #screen-diag { display: none !important; }
+    #screen-results { display: block !important; }
+    .topbar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer-nav, .results-actions { display: none !important; }
+    .results-columns { grid-template-columns: 1fr 1fr !important; }
+    .results-col-title, .results-pillar-title, .results-item-label { color: #1C1C1C !important; }
+    .results-swatch { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .legend-swatch { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { margin: 0.6in; size: landscape; }
+  }
+
+  #app { max-width: 920px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar {
+    background: #1C1C1C;
+    padding: 22px 24px 18px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .topbar-title {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: #FFFFFF;
+  }
+  .topbar-sub {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 2px;
+  }
+  .progress-track {
+    margin-top: 14px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.35s ease;
+  }
+  .progress-label {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ---------- SCREENS ---------- */
+  .screen { flex: 1; display: flex; flex-direction: column; }
+  .hidden { display: none !important; }
+
+  /* ---------- START SCREEN ---------- */
+  .start-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 28px;
+    max-width: 560px;
+  }
+  .start-eyebrow {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--structure);
+    margin-bottom: 14px;
+  }
+  .start-title {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+  .start-body {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+  .field-label {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .field-input {
+    width: 100%;
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 16px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 6px;
+    background: white;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .field-input:focus { outline: none; border-color: var(--ink); }
+
+  .btn-primary {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 26px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.15s ease;
+    align-self: flex-start;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    padding: 8px 0;
+  }
+
+  .saved-list { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 18px; }
+  .saved-item {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .saved-item-name { font-weight: 600; }
+  .saved-item-meta { color: var(--ink-soft); font-size: 12.5px; }
+  .saved-item-open { color: var(--ink); font-weight: 600; text-decoration: underline; cursor:pointer; background:none; border:none; font-family:inherit; }
+
+  /* ---------- DIAGNOSTIC SCREEN ---------- */
+  .diag-wrap { flex: 1; display: flex; flex-direction: column; padding: 0 0 100px; }
+
+  .side-banner {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--structure);
+    padding: 26px 24px 6px;
+  }
+
+  .pillar-block { padding: 0 24px 8px; }
+  .pillar-name {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--structure);
+    margin: 18px 0 4px;
+  }
+
+  .card {
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    margin-bottom: 14px;
+    background: white;
+  }
+  .card-header {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .card-question {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+
+  .scale-row {
+    display: flex;
+    gap: 6px;
+  }
+  .scale-row .scale-btn {
+    flex: 1;
+  }
+  .scale-btn {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    padding: 14px 4px;
+    border-radius: 7px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+    text-align: center;
+    transition: all 0.15s ease;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scale-btn:hover { border-color: var(--structure); }
+  .scale-btn.active-1 { background: #F9E0E0; color: #1C1C1C; border-color: #F9E0E0; }
+  .scale-btn.active-2 { background: #F4B8B8; color: #1C1C1C; border-color: #F4B8B8; }
+  .scale-btn.active-3 { background: #EC8585; color: #FFFFFF; border-color: #EC8585; }
+  .scale-btn.active-4 { background: #E85555; color: #FFFFFF; border-color: #E85555; }
+  .scale-btn.active-5 { background: #DD3434; color: #FFFFFF; border-color: #DD3434; }
+
+  .scale-endlabels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .scale-endlabel {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 10px;
+    color: var(--ink-soft);
+    line-height: 1.3;
+  }
+  .scale-endlabel.end-left { text-align: left; }
+  .scale-endlabel.end-right { text-align: right; }
+
+  .notsure-btn {
+    width: 100%;
+    margin-top: 12px;
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 12px 8px;
+    border-radius: 7px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+    text-align: center;
+    transition: all 0.15s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .notsure-btn:hover { border-color: var(--ink); }
+  .notsure-btn.active-notsure { background: #1C1C1C; color: #FFFFFF; border-color: #1C1C1C; }
+
+  .divider-row {
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.15;
+    margin: 6px 24px 0;
+  }
+
+  /* ---------- FOOTER NAV ---------- */
+  .footer-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    border-top: 1.5px solid var(--ink);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .nav-count {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- RESULTS SCREEN ---------- */
+  .results-wrap { padding: 28px 24px 60px; }
+  .results-title {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+  .results-sub {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+
+  .legend {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .legend-scale-table {
+    display: table;
+    border-spacing: 0;
+    margin-bottom: 10px;
+  }
+  .legend-scale-swatches,
+  .legend-scale-labels {
+    display: table-row;
+  }
+  .legend-scale-cell {
+    display: table-cell;
+    width: 80px;
+    text-align: center;
+    padding-bottom: 5px;
+  }
+  .legend-scale-cell.cell-wide {
+    width: 140px;
+  }
+  .legend-scale-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .legend-scale-label {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    display: block;
+    white-space: nowrap;
+  }
+  .legend-scale-label.bold {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .legend-notsure-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .legend-notsure-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: #1C1C1C;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .legend-item {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-soft);
+  }
+  .legend-swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  .results-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  @media (min-width: 720px) {
+    .results-columns { grid-template-columns: 1fr 1fr; }
+  }
+  .results-col-title {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .results-pillar-title {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--structure);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 16px 0 8px;
+  }
+  .results-item-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+  }
+  .results-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    border: 1px solid rgba(31,29,27,0.15);
+  }
+  .results-item-label {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .summary-note {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .summary-note strong { color: var(--ink); }
+
+  .results-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .btn-ghost {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+  }
+  .btn-ghost:hover { background: var(--paper-warm); }
+
+  .error-banner {
+    font-family: 'Host Grotesk', sans-serif;
+    font-size: 13px;
+    background: #F4EFE9;
+    border: 1px solid var(--shaky);
+    color: var(--ink);
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== START SCREEN ===================== -->
+  <div id="screen-start" class="screen">
+    <div class="start-wrap">
+      <div class="start-eyebrow grotesk">Clarity &amp; Reach</div>
+      <div class="start-title">Growth Ingredients Review</div>
+      <p class="start-body">A fast, low-stakes walk through 16 areas of your brand and marketing foundation. No right answers — just where things stand today, in your own words.</p>
+
+      <label class="field-label" for="user-name-input">Your name</label>
+      <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
+
+      <label class="field-label" for="org-name-input">Organization</label>
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
+
+      <button class="btn-primary" id="start-btn">Start &rarr;</button>
+
+      <div id="saved-section" class="saved-list hidden">
+        <div class="field-label">Or continue a saved session</div>
+        <div id="saved-list-inner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DIAGNOSTIC SCREEN ===================== -->
+  <div id="screen-diag" class="screen hidden">
+    <div class="topbar">
+      <div class="topbar-title grotesk">Clarity &amp; Reach — Readiness Check</div>
+      <div class="topbar-sub grotesk" id="topbar-client"></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-label">
+        <span id="progress-text">0 of 16 answered</span>
+        <span id="progress-pct">0%</span>
+      </div>
+    </div>
+
+    <div class="diag-wrap" id="items-container"></div>
+
+    <div class="footer-nav">
+      <button class="btn-secondary" id="back-to-start-btn">&larr; Save &amp; exit</button>
+      <div class="nav-count grotesk" id="footer-count"></div>
+      <button class="btn-primary" id="view-results-btn">Submit &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ===================== RESULTS SCREEN ===================== -->
+  <div id="screen-results" class="screen hidden">
+    <div class="topbar">
+      <div class="topbar-title grotesk">Clarity &amp; Reach</div>
+      <div class="topbar-sub grotesk" id="results-client"></div>
+    </div>
+    <div class="results-wrap">
+      <div class="results-sub grotesk">Here's where things might stand today.</div>
+
+      <div class="legend">
+        <div class="legend-scale-table">
+          <div class="legend-scale-swatches">
+            <div class="legend-scale-cell cell-wide"><span class="legend-scale-swatch" style="background:#F9E0E0"></span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-swatch" style="background:#F4B8B8"></span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-swatch" style="background:#EC8585"></span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-swatch" style="background:#E85555"></span></div>
+            <div class="legend-scale-cell cell-wide"><span class="legend-scale-swatch" style="background:#DD3434"></span></div>
+          </div>
+          <div class="legend-scale-labels">
+            <div class="legend-scale-cell cell-wide"><span class="legend-scale-label bold">1 — Not confident</span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-label">2</span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-label">3</span></div>
+            <div class="legend-scale-cell"><span class="legend-scale-label">4</span></div>
+            <div class="legend-scale-cell cell-wide"><span class="legend-scale-label bold">5 — Completely confident</span></div>
+          </div>
+        </div>
+        <div class="legend-notsure-row">
+          <span class="legend-notsure-swatch"></span>
+          <span>Not sure this applies</span>
+        </div>
+      </div>
+
+      <div class="results-columns" id="results-columns"></div>
+
+      <div class="summary-note" id="summary-note"></div>
+
+      <div class="results-actions">
+        <button class="btn-primary" id="download-pdf-btn">Download PDF &rarr;</button>
+        <button class="btn-ghost" id="back-to-diag-btn">&larr; Back to questions</button>
+        <button class="btn-ghost" id="new-session-btn">Start a new session</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+
+  // ---------- DATA ----------
+  var ITEMS = [
+    { id: "industry-insights", side: "Clarity", pillar: "Business Perspective",
+      header: "Industry Insights",
+      question: "Do you have a clear handle on what\u2019s shaping your industry right now: the trends moving it, the assumptions everyone\u2019s operating on, and where it\u2019s headed next?" },
+    { id: "audience-definition", side: "Clarity", pillar: "Business Perspective",
+      header: "Audience Definition",
+      question: "Do you deeply understand who you\u2019re trying to reach, beyond the basic demographics, down to how they see the world and what actually drives their behavior?" },
+    { id: "competitive-strategy", side: "Clarity", pillar: "Business Perspective",
+      header: "Competitive Strategy",
+      question: "Do you know what alternatives your audience is weighing against you, and where your real, defensible advantages are?" },
+    { id: "growth-gameplan", side: "Clarity", pillar: "Business Perspective",
+      header: "Growth Gameplan",
+      question: "Do you have a clear picture of what success looks like, what you\u2019re focused on to achieve it, and what might get in the way?" },
+
+    { id: "brand-strategy", side: "Clarity", pillar: "Brand Perspective",
+      header: "Brand Strategy",
+      question: "Could you clearly articulate what you believe in and where you stand, in a way that\u2019s consistent no matter who\u2019s telling the story?" },
+    { id: "compelling-messaging", side: "Clarity", pillar: "Brand Perspective",
+      header: "Compelling Messaging",
+      question: "Do you have the right words for what you offer, organized in a way that makes your value obvious at every level?" },
+    { id: "distinctive-visuals", side: "Clarity", pillar: "Brand Perspective",
+      header: "Distinctive Visuals",
+      question: "Is your visual identity recognizable and memorable, or could it disappear into the wallpaper of your category?" },
+    { id: "storytelling-strategy", side: "Clarity", pillar: "Brand Perspective",
+      header: "Storytelling Strategy",
+      question: "Do you know how your brand's story should translate into ongoing content creation and earned media?" },
+
+    { id: "brand-advertising", side: "Reach", pillar: "Future Demand",
+      header: "Brand Advertising",
+      question: "Are you investing in visibility and resonance at scale, even with people who aren\u2019t ready to buy yet?" },
+    { id: "key-brand-assets", side: "Reach", pillar: "Future Demand",
+      header: "Key Brand Assets",
+      question: "Do you have the pillar assets, like your web presence, video, and owned IP, that deepen the brand over time rather than just promote it?" },
+    { id: "integrated-content", side: "Reach", pillar: "Future Demand",
+      header: "Integrated Content",
+      question: "Are your content, social, and earned media efforts actually coordinated, or living in separate lanes?" },
+    { id: "memorable-moments", side: "Reach", pillar: "Future Demand",
+      header: "Memorable Moments",
+      question: "Do you have experiential touchpoints, events or otherwise, that make the brand feel real and tangible to people?" },
+
+    { id: "performance-advertising", side: "Reach", pillar: "Current Demand",
+      header: "Performance Advertising",
+      question: "Are you effectively engaging people who are already in-market, with the response and optimization to back it up?" },
+    { id: "attractive-offers", side: "Reach", pillar: "Current Demand",
+      header: "Attractive Offers",
+      question: "Do you have low-friction entry points that make it easy for someone to take a first step with you?" },
+    { id: "digital-discovery", side: "Reach", pillar: "Current Demand",
+      header: "Digital Discovery",
+      question: "Can people actually find you, and is your web presence built to be found in the first place?" },
+    { id: "compelling-evidence", side: "Reach", pillar: "Current Demand",
+      header: "Compelling Evidence",
+      question: "When someone\u2019s deciding whether to trust you, do you have the social proof and hard data ready to make that decision feel safe and obvious?" }
+  ];
+
+  var SCALE = [1, 2, 3, 4, 5];
+  var SCALE_COLOR = { 1: "#F9E0E0", 2: "#F4B8B8", 3: "#EC8585", 4: "#E85555", 5: "#DD3434" };
+  var NOTSURE_COLOR = null; // rendered as outlined/clear
+
+  // ---------- STATE ----------
+  var session = { userName: "", orgName: "", answers: {}, createdAt: null, updatedAt: null };
+  var currentSessionKey = null;
+
+  // ---------- STORAGE HELPERS ----------
+  async function listSessions() {
+    try {
+      var res = await window.storage.list("session:");
+      return (res && res.keys) ? res.keys : [];
+    } catch (e) { return []; }
+  }
+
+  async function loadSession(key) {
+    try {
+      var res = await window.storage.get(key);
+      return res ? JSON.parse(res.value) : null;
+    } catch (e) { return null; }
+  }
+
+  async function saveSession() {
+    if (!currentSessionKey) {
+      currentSessionKey = "session:" + Date.now() + "-" + Math.random().toString(36).slice(2,8);
+      session.createdAt = new Date().toISOString();
+    }
+    session.updatedAt = new Date().toISOString();
+    try {
+      await window.storage.set(currentSessionKey, JSON.stringify(session));
+    } catch (e) {
+      console.error("Save failed", e);
+    }
+  }
+
+  // ---------- RENDER: START SCREEN ----------
+  async function renderStart() {
+    var savedSection = document.getElementById("saved-section");
+    var savedListInner = document.getElementById("saved-list-inner");
+    var keys = await listSessions();
+
+    if (keys.length === 0) {
+      savedSection.classList.add("hidden");
+      return;
+    }
+
+    var sessions = [];
+    for (var i = 0; i < keys.length; i++) {
+      var s = await loadSession(keys[i]);
+      if (s) sessions.push({ key: keys[i], data: s });
+    }
+    sessions.sort(function(a,b) {
+      return new Date(b.data.updatedAt || 0) - new Date(a.data.updatedAt || 0);
+    });
+
+    savedListInner.innerHTML = "";
+    sessions.slice(0, 8).forEach(function(item) {
+      var answeredCount = Object.keys(item.data.answers || {}).length;
+      var row = document.createElement("div");
+      row.className = "saved-item";
+      var dateStr = "";
+      try { dateStr = new Date(item.data.updatedAt).toLocaleDateString(); } catch(e) {}
+      row.innerHTML =
+        '<div><div class="saved-item-name">' + escapeHtml((item.data.userName || "") + (item.data.orgName ? " — " + item.data.orgName : "") || "Untitled session") + '</div>' +
+        '<div class="saved-item-meta">' + answeredCount + ' of 16 answered &middot; ' + dateStr + '</div></div>' +
+        '<button class="saved-item-open">Open</button>';
+      row.querySelector(".saved-item-open").addEventListener("click", function() {
+        openSession(item.key, item.data);
+      });
+      savedListInner.appendChild(row);
+    });
+
+    savedSection.classList.remove("hidden");
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function openSession(key, data) {
+    currentSessionKey = key;
+    session = data;
+    document.getElementById("user-name-input").value = session.userName || "";
+    document.getElementById("org-name-input").value = session.orgName || "";
+    showDiagnostic();
+  }
+
+  // ---------- RENDER: DIAGNOSTIC SCREEN ----------
+  function renderItems() {
+    var container = document.getElementById("items-container");
+    container.innerHTML = "";
+
+    var sides = ["Clarity", "Reach"];
+    sides.forEach(function(side) {
+      var sideBanner = document.createElement("div");
+      sideBanner.className = "side-banner";
+      sideBanner.textContent = side;
+      container.appendChild(sideBanner);
+
+      var pillars = [];
+      ITEMS.forEach(function(it) {
+        if (it.side === side && pillars.indexOf(it.pillar) === -1) pillars.push(it.pillar);
+      });
+
+      pillars.forEach(function(pillar) {
+        var pillarBlock = document.createElement("div");
+        pillarBlock.className = "pillar-block";
+
+        var pillarTitle = document.createElement("div");
+        pillarTitle.className = "pillar-name";
+        pillarTitle.textContent = pillar;
+        pillarBlock.appendChild(pillarTitle);
+
+        ITEMS.filter(function(it) { return it.side === side && it.pillar === pillar; }).forEach(function(item) {
+          pillarBlock.appendChild(renderCard(item));
+        });
+
+        container.appendChild(pillarBlock);
+      });
+    });
+  }
+
+  function renderCard(item) {
+    var card = document.createElement("div");
+    card.className = "card";
+    card.id = "card-" + item.id;
+
+    var header = document.createElement("div");
+    header.className = "card-header grotesk";
+    header.textContent = item.header;
+    card.appendChild(header);
+
+    var question = document.createElement("div");
+    question.className = "card-question";
+    question.textContent = item.question;
+    card.appendChild(question);
+
+    var row = document.createElement("div");
+    row.className = "scale-row";
+
+    SCALE.forEach(function(n) {
+      var btn = document.createElement("button");
+      btn.className = "scale-btn grotesk";
+      btn.textContent = n;
+      btn.setAttribute("data-item", item.id);
+      btn.setAttribute("data-value", n);
+      if (session.answers[item.id] === n) {
+        btn.classList.add("active-" + n);
+      }
+      btn.addEventListener("click", function() {
+        selectValue(item.id, n);
+      });
+      row.appendChild(btn);
+    });
+    card.appendChild(row);
+
+    var endRow = document.createElement("div");
+    endRow.className = "scale-endlabels";
+    var endLeft = document.createElement("div");
+    endLeft.className = "scale-endlabel end-left grotesk";
+    endLeft.textContent = "Not confident at all";
+    var endRight = document.createElement("div");
+    endRight.className = "scale-endlabel end-right grotesk";
+    endRight.textContent = "Completely confident";
+    endRow.appendChild(endLeft);
+    endRow.appendChild(endRight);
+    card.appendChild(endRow);
+
+    var notsureBtn = document.createElement("button");
+    notsureBtn.className = "notsure-btn grotesk";
+    notsureBtn.textContent = "Not sure this applies";
+    notsureBtn.setAttribute("data-item", item.id);
+    if (session.answers[item.id] === "notsure") {
+      notsureBtn.classList.add("active-notsure");
+    }
+    notsureBtn.addEventListener("click", function() {
+      selectValue(item.id, "notsure");
+    });
+    card.appendChild(notsureBtn);
+
+    return card;
+  }
+
+  function selectValue(itemId, value) {
+    session.answers[itemId] = value;
+    updateCardVisual(itemId);
+    updateProgress();
+    saveSession();
+  }
+
+  function updateCardVisual(itemId) {
+    var card = document.getElementById("card-" + itemId);
+    if (!card) return;
+    var current = session.answers[itemId];
+
+    var scaleButtons = card.querySelectorAll(".scale-btn");
+    scaleButtons.forEach(function(btn) {
+      SCALE.forEach(function(n) { btn.classList.remove("active-" + n); });
+      var btnValue = parseInt(btn.getAttribute("data-value"), 10);
+      if (current === btnValue) {
+        btn.classList.add("active-" + btnValue);
+      }
+    });
+
+    var notsureBtn = card.querySelector(".notsure-btn");
+    if (notsureBtn) {
+      if (current === "notsure") {
+        notsureBtn.classList.add("active-notsure");
+      } else {
+        notsureBtn.classList.remove("active-notsure");
+      }
+    }
+  }
+
+  function updateProgress() {
+    var answeredCount = Object.keys(session.answers).length;
+    var pct = Math.round((answeredCount / ITEMS.length) * 100);
+    document.getElementById("progress-fill").style.width = pct + "%";
+    document.getElementById("progress-text").textContent = answeredCount + " of " + ITEMS.length + " answered";
+    document.getElementById("progress-pct").textContent = pct + "%";
+    document.getElementById("footer-count").textContent = answeredCount + " / " + ITEMS.length;
+    document.getElementById("topbar-client").textContent = [session.userName, session.orgName].filter(Boolean).join(" — ") || "";
+  }
+
+  // ---------- RENDER: RESULTS SCREEN ----------
+  function renderResults() {
+    document.getElementById("results-client").textContent = [session.userName, session.orgName].filter(Boolean).join(" — ") || "";
+    var columnsContainer = document.getElementById("results-columns");
+    columnsContainer.innerHTML = "";
+
+    ["Clarity", "Reach"].forEach(function(side) {
+      var col = document.createElement("div");
+      col.className = "results-col";
+
+      var colTitle = document.createElement("div");
+      colTitle.className = "results-col-title";
+      colTitle.textContent = side;
+      col.appendChild(colTitle);
+
+      var pillars = [];
+      ITEMS.forEach(function(it) {
+        if (it.side === side && pillars.indexOf(it.pillar) === -1) pillars.push(it.pillar);
+      });
+
+      pillars.forEach(function(pillar) {
+        var pTitle = document.createElement("div");
+        pTitle.className = "results-pillar-title";
+        pTitle.textContent = pillar;
+        col.appendChild(pTitle);
+
+        ITEMS.filter(function(it) { return it.side === side && it.pillar === pillar; }).forEach(function(item) {
+          var row = document.createElement("div");
+          row.className = "results-item-row";
+          var value = session.answers[item.id];
+          var swatch = document.createElement("span");
+          swatch.className = "results-swatch";
+          if (value === "notsure") {
+            swatch.style.background = "#1C1C1C";
+          } else if (value) {
+            swatch.style.background = SCALE_COLOR[value];
+          } else {
+            swatch.style.background = "transparent";
+            swatch.style.border = "1.5px dashed #C9C4B6";
+          }
+          var label = document.createElement("span");
+          label.className = "results-item-label";
+          label.textContent = item.header;
+          row.appendChild(swatch);
+          row.appendChild(label);
+          col.appendChild(row);
+        });
+      });
+
+      columnsContainer.appendChild(col);
+    });
+
+    renderSummaryNote();
+  }
+
+  function renderSummaryNote() {
+    var counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, notsure: 0 };
+    var numericValues = [];
+    Object.keys(session.answers).forEach(function(id) {
+      var v = session.answers[id];
+      if (v === "notsure") {
+        counts.notsure++;
+      } else if (counts[v] !== undefined) {
+        counts[v]++;
+        numericValues.push(v);
+      }
+    });
+    var answered = Object.keys(session.answers).length;
+    var note = document.getElementById("summary-note");
+
+    if (answered === 0) {
+      note.innerHTML = "No answers yet &mdash; head back to the questions to get started.";
+      return;
+    }
+
+    var parts = [];
+    var highCount = counts[4] + counts[5];
+    var lowCount = counts[1] + counts[2];
+    parts.push("<strong>" + highCount + "</strong> rated 4&ndash;5 (confident), <strong>" + lowCount + "</strong> rated 1&ndash;2 (not confident), <strong>" + counts[3] + "</strong> rated right in the middle, and <strong>" + counts.notsure + "</strong> marked not sure" + (answered < ITEMS.length ? " (" + (ITEMS.length - answered) + " not yet answered)" : "") + ".");
+
+    if (counts.notsure > 0) {
+      parts.push("The \u201cnot sure\u201d answers are worth flagging separately from the others.");
+    }
+
+    note.innerHTML = parts.join(" ");
+  }
+
+  // ---------- NAVIGATION ----------
+  function showStart() {
+    document.getElementById("screen-start").classList.remove("hidden");
+    document.getElementById("screen-diag").classList.add("hidden");
+    document.getElementById("screen-results").classList.add("hidden");
+    renderStart();
+  }
+
+  function showDiagnostic() {
+    document.getElementById("screen-start").classList.add("hidden");
+    document.getElementById("screen-diag").classList.remove("hidden");
+    document.getElementById("screen-results").classList.add("hidden");
+    renderItems();
+    updateProgress();
+  }
+
+  function showResults() {
+    document.getElementById("screen-start").classList.add("hidden");
+    document.getElementById("screen-diag").classList.add("hidden");
+    document.getElementById("screen-results").classList.remove("hidden");
+    renderResults();
+  }
+
+  // ---------- EVENTS ----------
+  document.getElementById("start-btn").addEventListener("click", function() {
+    var userName = document.getElementById("user-name-input").value.trim();
+    var orgName = document.getElementById("org-name-input").value.trim();
+    session = { userName: userName, orgName: orgName, answers: {}, createdAt: null, updatedAt: null };
+    currentSessionKey = null;
+    showDiagnostic();
+    saveSession();
+  });
+
+  document.getElementById("back-to-start-btn").addEventListener("click", function() {
+    saveSession();
+    showStart();
+  });
+
+  document.getElementById("view-results-btn").addEventListener("click", function() {
+    saveSession();
+    showResults();
+    submitToSheets();
+  });
+
+  document.getElementById("back-to-diag-btn").addEventListener("click", function() {
+    showDiagnostic();
+  });
+
+  document.getElementById("new-session-btn").addEventListener("click", function() {
+    session = { userName: "", orgName: "", answers: {}, createdAt: null, updatedAt: null };
+    currentSessionKey = null;
+    showStart();
+  });
+
+  // ---------- GOOGLE SHEETS SUBMISSION ----------
+  var SHEETS_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+
+  function submitToSheets() {
+    if (!SHEETS_URL || SHEETS_URL === "YOUR_APPS_SCRIPT_URL_HERE") return;
+    var row = {
+      userName: session.userName || "",
+      orgName: session.orgName || "",
+      submittedAt: new Date().toISOString()
+    };
+    ITEMS.forEach(function(item) {
+      var val = session.answers[item.id];
+      row[item.id] = (val === "notsure") ? "N/A" : (val || "");
+    });
+    fetch(SHEETS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(row)
+    }).catch(function(e) { console.warn("Sheets submission failed:", e); });
+  }
+
+  // ---------- PDF DOWNLOAD ----------
+  document.getElementById("download-pdf-btn").addEventListener("click", function() {
+    window.print();
+  });
+
+  // ---------- INIT ----------
+  showStart();
+
+})();
+</script>
+
+</body>
+</html>
