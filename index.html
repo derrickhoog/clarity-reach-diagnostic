@@ -514,7 +514,7 @@
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
 
       <label class="field-label" for="org-name-input">Organization</label>
-      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Organization Name">
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
 
       <button class="btn-primary" id="start-btn">Start &rarr;</button>
 
@@ -587,6 +587,7 @@
         <button class="btn-ghost" id="back-to-diag-btn">&larr; Back to questions</button>
         <button class="btn-ghost" id="new-session-btn">Start a new session</button>
       </div>
+      <div id="sheets-status" style="margin-top:14px;font-family:'Host Grotesk',sans-serif;font-size:13px;"></div>
     </div>
   </div>
 
@@ -658,32 +659,37 @@
   var session = { userName: "", orgName: "", answers: {}, createdAt: null, updatedAt: null };
   var currentSessionKey = null;
 
-  // ---------- STORAGE HELPERS ----------
-  async function listSessions() {
+  // ---------- STORAGE HELPERS (localStorage, works everywhere) ----------
+  function listSessions() {
     try {
-      var res = await window.storage.list("session:");
-      return (res && res.keys) ? res.keys : [];
-    } catch (e) { return []; }
+      var keys = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf("session:") === 0) keys.push(k);
+      }
+      return Promise.resolve(keys);
+    } catch (e) { return Promise.resolve([]); }
   }
 
-  async function loadSession(key) {
+  function loadSession(key) {
     try {
-      var res = await window.storage.get(key);
-      return res ? JSON.parse(res.value) : null;
-    } catch (e) { return null; }
+      var val = localStorage.getItem(key);
+      return Promise.resolve(val ? JSON.parse(val) : null);
+    } catch (e) { return Promise.resolve(null); }
   }
 
-  async function saveSession() {
+  function saveSession() {
     if (!currentSessionKey) {
       currentSessionKey = "session:" + Date.now() + "-" + Math.random().toString(36).slice(2,8);
       session.createdAt = new Date().toISOString();
     }
     session.updatedAt = new Date().toISOString();
     try {
-      await window.storage.set(currentSessionKey, JSON.stringify(session));
+      localStorage.setItem(currentSessionKey, JSON.stringify(session));
     } catch (e) {
-      console.error("Save failed", e);
+      console.warn("Save failed", e);
     }
+    return Promise.resolve();
   }
 
   // ---------- RENDER: START SCREEN ----------
@@ -1019,10 +1025,12 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/a/macros/5by5agency.com/s/AKfycbxGCSqCtKo9hYLtGe7O8R0d_iD2NnA_9z8JFvmCWiACY8tWICy7BSD5tV3IR-PEqIQ/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx0gXY3gwGEkN-KVdrhh1-puulEUv977zBVcdEcyieO8EIY5Wnv59SgF-pjeV3Z6GFE/exec";
 
   function submitToSheets() {
+    var statusEl = document.getElementById("sheets-status");
     if (!SHEETS_URL || SHEETS_URL === "YOUR_APPS_SCRIPT_URL_HERE") return;
+
     var row = {
       userName: session.userName || "",
       orgName: session.orgName || "",
@@ -1032,12 +1040,29 @@
       var val = session.answers[item.id];
       row[item.id] = (val === "notsure") ? "N/A" : (val || "");
     });
+
+    if (statusEl) {
+      statusEl.style.color = "#5A5A5A";
+      statusEl.textContent = "Sending responses\u2026";
+    }
+
     fetch(SHEETS_URL, {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(row)
-    }).catch(function(e) { console.warn("Sheets submission failed:", e); });
+    }).then(function() {
+      if (statusEl) {
+        statusEl.style.color = "#2A6F4A";
+        statusEl.textContent = "\u2713 Responses sent to 5by5.";
+      }
+    }).catch(function(e) {
+      console.warn("Sheets submission failed:", e);
+      if (statusEl) {
+        statusEl.style.color = "#DD3434";
+        statusEl.textContent = "Couldn\u2019t send responses \u2014 please copy the URL and email it to your 5by5 contact.";
+      }
+    });
   }
 
   // ---------- PDF DOWNLOAD ----------
