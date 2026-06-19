@@ -516,7 +516,7 @@
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
 
       <label class="field-label" for="org-name-input">Organization</label>
-      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Org Name">
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
 
       <button class="btn-primary" id="start-btn">Start &rarr;</button>
 
@@ -1048,15 +1048,30 @@
     if (actions) actions.style.display = "none";
     if (status) status.style.display = "none";
 
+    // Trim trailing bottom padding that's only meant for on-screen breathing
+    // room, so the PDF doesn't reserve extra blank space at the bottom.
+    var resultsWrap = target.querySelector(".results-wrap");
+    var originalPadding = resultsWrap ? resultsWrap.style.paddingBottom : null;
+    if (resultsWrap) resultsWrap.style.paddingBottom = "12px";
+
     var fileName = "Clarity-Reach-" + ((session.userName || "Results").replace(/[^a-z0-9]+/gi, "-")) + ".pdf";
 
+    // Page width fixed to Letter-landscape; height calculated from the
+    // actual rendered content so everything fits on a single page.
+    var pageWidthIn = 11;
+    var marginIn = 0.4;
+    var contentWidthPx = target.scrollWidth;
+    var contentHeightPx = target.scrollHeight;
+    var pxToIn = (pageWidthIn - marginIn * 2) / contentWidthPx;
+    var pageHeightIn = (contentHeightPx * pxToIn) + marginIn * 2;
+
     var opt = {
-      margin: [0.5, 0.5, 0.5, 0.5],
+      margin: marginIn,
       filename: fileName,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true, backgroundColor: "#F6F7F9" },
-      jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
-      pagebreak: { mode: ["css", "legacy"] }
+      jsPDF: { unit: "in", format: [pageWidthIn, pageHeightIn], orientation: "landscape" },
+      pagebreak: { mode: ["avoid-all"] }
     };
 
     var ready = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
@@ -1076,6 +1091,7 @@
       btn.disabled = false;
       if (actions) actions.style.display = "";
       if (status) status.style.display = "";
+      if (resultsWrap && originalPadding !== null) resultsWrap.style.paddingBottom = originalPadding;
     }
   });
 
