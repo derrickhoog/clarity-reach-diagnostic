@@ -6,6 +6,7 @@
 <title>Clarity &amp; Reach — A Growth Ingredients Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
     --paper: #F6F7F9;
@@ -47,6 +48,7 @@
     #screen-results { display: block !important; }
     .topbar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .footer-nav, .results-actions { display: none !important; }
+    #sheets-status { display: none !important; }
     .results-columns { grid-template-columns: 1fr 1fr !important; }
     .results-col-title, .results-pillar-title, .results-item-label { color: #1C1C1C !important; }
     .results-swatch { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -514,14 +516,10 @@
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
 
       <label class="field-label" for="org-name-input">Organization</label>
-      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Org Name">
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
 
       <button class="btn-primary" id="start-btn">Start &rarr;</button>
 
-      <div id="saved-section" class="saved-list hidden">
-        <div class="field-label">Or continue a saved session</div>
-        <div id="saved-list-inner"></div>
-      </div>
     </div>
   </div>
 
@@ -551,6 +549,7 @@
     <div class="topbar">
       <div class="topbar-title grotesk">Clarity &amp; Reach</div>
       <div class="topbar-sub grotesk" id="results-client"></div>
+      <div class="topbar-sub grotesk" id="results-date" style="opacity:0.6;font-size:12px;margin-top:2px;"></div>
     </div>
     <div class="results-wrap">
       <div class="results-sub grotesk">Here's where things might stand today.</div>
@@ -693,49 +692,8 @@
   }
 
   // ---------- RENDER: START SCREEN ----------
-  async function renderStart() {
-    var savedSection = document.getElementById("saved-section");
-    var savedListInner = document.getElementById("saved-list-inner");
-    var keys = await listSessions();
-
-    if (keys.length === 0) {
-      savedSection.classList.add("hidden");
-      return;
-    }
-
-    var sessions = [];
-    for (var i = 0; i < keys.length; i++) {
-      var s = await loadSession(keys[i]);
-      if (s) sessions.push({ key: keys[i], data: s });
-    }
-    sessions.sort(function(a,b) {
-      return new Date(b.data.updatedAt || 0) - new Date(a.data.updatedAt || 0);
-    });
-
-    savedListInner.innerHTML = "";
-    sessions.slice(0, 8).forEach(function(item) {
-      var answeredCount = Object.keys(item.data.answers || {}).length;
-      var row = document.createElement("div");
-      row.className = "saved-item";
-      var dateStr = "";
-      try { dateStr = new Date(item.data.updatedAt).toLocaleDateString(); } catch(e) {}
-      row.innerHTML =
-        '<div><div class="saved-item-name">' + escapeHtml((item.data.userName || "") + (item.data.orgName ? " — " + item.data.orgName : "") || "Untitled session") + '</div>' +
-        '<div class="saved-item-meta">' + answeredCount + ' of 16 answered &middot; ' + dateStr + '</div></div>' +
-        '<button class="saved-item-open">Open</button>';
-      row.querySelector(".saved-item-open").addEventListener("click", function() {
-        openSession(item.key, item.data);
-      });
-      savedListInner.appendChild(row);
-    });
-
-    savedSection.classList.remove("hidden");
-  }
-
-  function escapeHtml(str) {
-    var div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
+  function renderStart() {
+    // Saved-session browsing now lives on resume.html, not the client-facing start screen.
   }
 
   function openSession(key, data) {
@@ -886,6 +844,12 @@
   // ---------- RENDER: RESULTS SCREEN ----------
   function renderResults() {
     document.getElementById("results-client").textContent = [session.userName, session.orgName].filter(Boolean).join(" — ") || "";
+    var dateEl = document.getElementById("results-date");
+    if (dateEl) {
+      try {
+        dateEl.textContent = "Completed " + new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+      } catch (e) { dateEl.textContent = ""; }
+    }
     var columnsContainer = document.getElementById("results-columns");
     columnsContainer.innerHTML = "";
 
@@ -1025,7 +989,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwMAdpJFqKxQTfC_-nHpQ_6eEQSuNufezbKcPsAR12gr2unVp44tuXksYKGTych0LQc/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbzbr0m6T5Pb8f50jqkruGt_kUwRUpw_jHNuYSTPLF20FKEN5GTnZlEhIq1Zca64KfWe/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
@@ -1046,14 +1010,15 @@
       statusEl.textContent = "Sending responses\u2026";
     }
 
-    // Use a form POST — Apps Script reads this reliably regardless of CORS
-    var form = new FormData();
-    form.append("data", JSON.stringify(row));
+    // Plain text body — avoids FormData's postMessage cloning issue in some
+    // sandboxed contexts, and Apps Script can read it via e.postData.contents.
+    var bodyString = "data=" + encodeURIComponent(JSON.stringify(row));
 
     fetch(SHEETS_URL, {
       method: "POST",
       mode: "no-cors",
-      body: form
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: bodyString
     }).then(function() {
       if (statusEl) {
         statusEl.style.color = "#2A6F4A";
@@ -1070,7 +1035,48 @@
 
   // ---------- PDF DOWNLOAD ----------
   document.getElementById("download-pdf-btn").addEventListener("click", function() {
-    window.print();
+    var btn = document.getElementById("download-pdf-btn");
+    var actions = document.querySelector(".results-actions");
+    var status = document.getElementById("sheets-status");
+    var target = document.getElementById("screen-results");
+
+    var originalBtnText = btn.textContent;
+    btn.textContent = "Preparing PDF\u2026";
+    btn.disabled = true;
+
+    // Hide UI chrome that shouldn't appear in the exported document
+    if (actions) actions.style.display = "none";
+    if (status) status.style.display = "none";
+
+    var fileName = "Clarity-Reach-" + ((session.userName || "Results").replace(/[^a-z0-9]+/gi, "-")) + ".pdf";
+
+    var opt = {
+      margin: [0.5, 0.5, 0.5, 0.5],
+      filename: fileName,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: "#F6F7F9" },
+      jsPDF: { unit: "in", format: "letter", orientation: "landscape" },
+      pagebreak: { mode: ["css", "legacy"] }
+    };
+
+    var ready = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+
+    ready.then(function() {
+      return html2pdf().set(opt).from(target).save();
+    }).then(function() {
+      restoreUI();
+    }).catch(function(err) {
+      console.warn("PDF export failed:", err);
+      restoreUI();
+      alert("Something went wrong generating the PDF. Please try again.");
+    });
+
+    function restoreUI() {
+      btn.textContent = originalBtnText;
+      btn.disabled = false;
+      if (actions) actions.style.display = "";
+      if (status) status.style.display = "";
+    }
   });
 
   // ---------- INIT ----------
