@@ -508,15 +508,15 @@
   <!-- ===================== START SCREEN ===================== -->
   <div id="screen-start" class="screen">
     <div class="start-wrap">
-      <div class="start-eyebrow grotesk">A Growth Ingredients Review:</div>
-      <div class="start-title">Clarity &amp; Reach</div>
-      <p class="start-body">A fast, low-stakes walk through of your brand and marketing foundation. No right answers — just a helpful indication where things may stand today.</p>
+      <div class="start-eyebrow grotesk">Clarity &amp; Reach</div>
+      <div class="start-title">Growth Ingredients Review</div>
+      <p class="start-body">A fast, low-stakes walk through 16 areas of your brand and marketing foundation. No right answers — just where things stand today, in your own words.</p>
 
       <label class="field-label" for="user-name-input">Your name</label>
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
 
       <label class="field-label" for="org-name-input">Organization</label>
-      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Org Name">
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
 
       <button class="btn-primary" id="start-btn">Start &rarr;</button>
 
@@ -597,18 +597,18 @@
 
   // ---------- DATA ----------
   var ITEMS = [
-    { id: "industry-insights", side: "Clarity", pillar: "Business Perspective",
+    { id: "industry-insights", side: "Clarity", pillar: "Market Perspective",
       header: "Industry Insights",
       question: "Do you have a clear handle on what\u2019s shaping your industry right now: the trends moving it, the assumptions everyone\u2019s operating on, and where it\u2019s headed next?" },
-    { id: "audience-definition", side: "Clarity", pillar: "Business Perspective",
+    { id: "audience-definition", side: "Clarity", pillar: "Market Perspective",
       header: "Audience Definition",
       question: "Do you deeply understand who you\u2019re trying to reach, beyond the basic demographics, down to how they see the world and what actually drives their behavior?" },
-    { id: "competitive-strategy", side: "Clarity", pillar: "Business Perspective",
+    { id: "competitive-strategy", side: "Clarity", pillar: "Market Perspective",
       header: "Competitive Strategy",
       question: "Do you know what alternatives your audience is weighing against you, and where your real, defensible advantages are?" },
-    { id: "growth-gameplan", side: "Clarity", pillar: "Business Perspective",
-      header: "Growth Gameplan",
-      question: "Do you have a clear picture of what success looks like, what you\u2019re focused on to achieve it, and what might get in the way?" },
+    { id: "business-outlook", side: "Clarity", pillar: "Market Perspective",
+      header: "Business Outlook",
+      question: "Have you defined the fundamentals of your business in simple, concrete terms: your value, your model, and the assumptions behind them?" },
 
     { id: "brand-strategy", side: "Clarity", pillar: "Brand Perspective",
       header: "Brand Strategy",
@@ -989,7 +989,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbzbr0m6T5Pb8f50jqkruGt_kUwRUpw_jHNuYSTPLF20FKEN5GTnZlEhIq1Zca64KfWe/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwjEcIM-sF-yJuG2FEffg8M4vtR6LCcYj9o0vf2ERaQebBXO-wNtlo1qjJ8Mmth1s8Q/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
