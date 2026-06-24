@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand depth dial</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #121212;
+    color: #F1EFE8;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap {
+    max-width: 720px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 28px;
+    color: #F1EFE8;
+  }
+  .board {
+    display: flex;
+    gap: 24px;
+    align-items: stretch;
+  }
+  input[type="range"] {
+    -webkit-appearance: slider-vertical;
+    appearance: slider-vertical;
+    width: 24px;
+    height: 280px;
+    flex-shrink: 0;
+    accent-color: #5DA9F0;
+  }
+  .rows {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .row {
+    position: relative;
+    border: 1px solid #3A3A38;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 80px;
+    background: #1C1C1A;
+  }
+  .fill-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: #1F4E7A;
+    transition: width 0.15s;
+  }
+  .row-label {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #F1EFE8;
+  }
+  .diag {
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid #3A3A38;
+  }
+  .diag-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #B4B2A9;
+    margin-bottom: 8px;
+  }
+  .diag-track {
+    position: relative;
+    height: 10px;
+    background: #2C2C2A;
+    border-radius: 5px;
+  }
+  .diag-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 10px;
+    border-radius: 5px;
+    background: #5DA9F0;
+    width: 0%;
+  }
+  .diag-marker {
+    position: absolute;
+    top: -5px;
+    left: 0%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1C1C1A;
+    border: 3px solid #5DA9F0;
+    transform: translateX(-50%);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Brand depth dial</h1>
+  <div class="board">
+    <input type="range" id="depthDial" min="0" max="100" value="100" step="1">
+    <div class="rows">
+      <div class="row" data-row="expression">
+        <div class="fill-bar" data-row="expression"></div>
+        <div class="row-label">Brand Expression</div>
+      </div>
+      <div class="row" data-row="position">
+        <div class="fill-bar" data-row="position"></div>
+        <div class="row-label">Brand Position</div>
+      </div>
+      <div class="row" data-row="conviction">
+        <div class="fill-bar" data-row="conviction"></div>
+        <div class="row-label">Brand Conviction</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diag">
+    <div class="diag-labels">
+      <span>Refinement</span>
+      <span>Discernment</span>
+    </div>
+    <div class="diag-track">
+      <div class="diag-fill" id="diagTrackFill"></div>
+      <div class="diag-marker" id="diagMarker"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var depthDial = document.getElementById('depthDial');
+var diagMarker = document.getElementById('diagMarker');
+var diagTrackFill = document.getElementById('diagTrackFill');
+
+function updateDepth() {
+  var raw = Number(depthDial.value);
+  var v = 100 - raw;
+
+  var expFill = Math.max(0, Math.min(100, v * 3));
+  var posFill = Math.max(0, Math.min(100, (v - 33) * 3));
+  var convFill = Math.max(0, Math.min(100, (v - 66) * 3));
+
+  document.querySelector('.fill-bar[data-row="expression"]').style.width = expFill + '%';
+  document.querySelector('.fill-bar[data-row="position"]').style.width = posFill + '%';
+  document.querySelector('.fill-bar[data-row="conviction"]').style.width = convFill + '%';
+
+  diagMarker.style.left = v + '%';
+  diagTrackFill.style.width = v + '%';
+}
+
+depthDial.addEventListener('input', updateDepth);
+updateDepth();
+</script>
+</body>
+</html>
