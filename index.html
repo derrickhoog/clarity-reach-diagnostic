@@ -516,7 +516,7 @@
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
 
       <label class="field-label" for="org-name-input">Organization</label>
-      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Mentors International">
+      <input id="org-name-input" class="field-input" type="text" placeholder="e.g. Org Name">
 
       <button class="btn-primary" id="start-btn">Start &rarr;</button>
 
@@ -632,9 +632,9 @@
     { id: "integrated-content", side: "Reach", pillar: "Future Demand",
       header: "Integrated Content",
       question: "Are your content, social, and earned media efforts actually coordinated, or living in separate lanes?" },
-    { id: "memorable-moments", side: "Reach", pillar: "Future Demand",
-      header: "Memorable Moments",
-      question: "Do you have experiential touchpoints, events or otherwise, that make the brand feel real and tangible to people?" },
+    { id: "memorable-experiences", side: "Reach", pillar: "Future Demand",
+      header: "Memorable Experiences",
+      question: "Do you have built-in experiences that make you memorable \u2014 customer engagement processes, signature moments, or scheduled events that make them feel something?" },
 
     { id: "performance-advertising", side: "Reach", pillar: "Current Demand",
       header: "Performance Advertising",
@@ -989,7 +989,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwjEcIM-sF-yJuG2FEffg8M4vtR6LCcYj9o0vf2ERaQebBXO-wNtlo1qjJ8Mmth1s8Q/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx0gXY3gwGEkN-KVdrhh1-puulEUv977zBVcdEcyieO8EIY5Wnv59SgF-pjeV3Z6GFE/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
