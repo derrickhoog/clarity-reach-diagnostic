@@ -1,35 +1,3 @@
-// ============================================================
-// Clarity & Reach — Google Sheets Receiver
-// ============================================================
-//
-// SETUP INSTRUCTIONS:
-//
-// 1. Open Google Sheets and create a new spreadsheet.
-//    Name it something like "Clarity & Reach Responses".
-//
-// 2. In the spreadsheet, go to Extensions > Apps Script.
-//
-// 3. Delete any existing code and paste this entire file in.
-//
-// 4. Click Save (Ctrl+S / Cmd+S).
-//
-// 5. Click Deploy > New deployment.
-//    - Type: Web app
-//    - Execute as: Me
-//    - Who has access: Anyone
-//    Click Deploy and authorize when prompted.
-//
-// 6. Copy the Web App URL that appears after deployment.
-//
-// 7. In clarity-reach-diagnostic.html, find this line near the bottom:
-//      var SHEETS_URL = "YOUR_APPS_SCRIPT_URL_HERE";
-//    Replace the placeholder with your copied URL.
-//
-// 8. Push the updated HTML to your GitHub repo. Done.
-//
-// The sheet will auto-create a header row on first submission.
-// Each submission adds one new row.
-// ============================================================
 
 var SHEET_NAME = "Responses";
 
@@ -37,7 +5,7 @@ var ITEM_IDS = [
   "industry-insights",
   "audience-definition",
   "competitive-strategy",
-  "growth-gameplan",
+  "business-outlook",
   "brand-strategy",
   "compelling-messaging",
   "distinctive-visuals",
@@ -45,7 +13,7 @@ var ITEM_IDS = [
   "brand-advertising",
   "key-brand-assets",
   "integrated-content",
-  "memorable-moments",
+  "memorable-experiences",
   "performance-advertising",
   "attractive-offers",
   "digital-discovery",
@@ -56,7 +24,7 @@ var ITEM_LABELS = {
   "industry-insights":       "Industry Insights",
   "audience-definition":     "Audience Definition",
   "competitive-strategy":    "Competitive Strategy",
-  "growth-gameplan":         "Growth Gameplan",
+  "business-outlook":        "Business Outlook",
   "brand-strategy":          "Brand Strategy",
   "compelling-messaging":    "Compelling Messaging",
   "distinctive-visuals":     "Distinctive Visuals",
@@ -64,7 +32,7 @@ var ITEM_LABELS = {
   "brand-advertising":       "Brand Advertising",
   "key-brand-assets":        "Key Brand Assets",
   "integrated-content":      "Integrated Content",
-  "memorable-moments":       "Memorable Moments",
+  "memorable-experiences":   "Memorable Experiences",
   "performance-advertising": "Performance Advertising",
   "attractive-offers":       "Attractive Offers",
   "digital-discovery":       "Digital Discovery",
@@ -79,7 +47,23 @@ function doPost(e) {
       sheet = ss.insertSheet(SHEET_NAME);
     }
 
-    var data = JSON.parse(e.postData.contents);
+    // Body arrives as text/plain in the form "data=<url-encoded-json>"
+    // (this avoids a FormData cloning issue in some sandboxed browser contexts).
+    var rawBody = e.postData ? e.postData.contents : "";
+    var jsonString;
+
+    if (e.parameter && e.parameter.data) {
+      // Form-encoded request (FormData or x-www-form-urlencoded)
+      jsonString = e.parameter.data;
+    } else if (rawBody.indexOf("data=") === 0) {
+      // Plain-text body: strip the "data=" prefix and decode
+      jsonString = decodeURIComponent(rawBody.substring(5));
+    } else {
+      // Fallback: assume the whole body is raw JSON
+      jsonString = rawBody;
+    }
+
+    var data = JSON.parse(jsonString);
 
     // Build header row if sheet is empty
     if (sheet.getLastRow() === 0) {
@@ -125,7 +109,7 @@ function testWrite() {
     "industry-insights": "4",
     "audience-definition": "3",
     "competitive-strategy": "N/A",
-    "growth-gameplan": "5",
+    "business-outlook": "5",
     "brand-strategy": "2",
     "compelling-messaging": "3",
     "distinctive-visuals": "4",
@@ -133,7 +117,7 @@ function testWrite() {
     "brand-advertising": "3",
     "key-brand-assets": "4",
     "integrated-content": "2",
-    "memorable-moments": "N/A",
+    "memorable-experiences": "N/A",
     "performance-advertising": "3",
     "attractive-offers": "4",
     "digital-discovery": "5",
