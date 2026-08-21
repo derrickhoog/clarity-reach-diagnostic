@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clarity &amp; Reach — Growth Ingredients</title>
+<title>Clarity &amp; Reach — A Growth Ingredients Review</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -115,7 +115,7 @@
   }
   .start-eyebrow {
     font-family: 'Host Grotesk', sans-serif;
-    font-size: 48px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -125,7 +125,7 @@
   .start-title {
     font-family: 'Host Grotesk', sans-serif;
     font-weight: 800;
-    font-size: 24px;
+    font-size: 48px;
     line-height: 1.08;
     letter-spacing: -0.02em;
     margin-bottom: 18px;
@@ -509,9 +509,9 @@
   <div id="screen-start" class="screen">
     <div class="start-wrap">
       <div class="start-eyebrow grotesk">Clarity &amp; Reach</div>
-      <div class="start-title">Growth Ingredients</div>
+      <div class="start-title">Growth Ingredients Review</div>
       <div style="width:48px;height:3px;background:#DD3434;margin:18px 0 22px;"></div>
-      <p class="start-body">A self-evaluation across the 16 key ingredients we believe enable client growth.</p>
+      <p class="start-body">A fast, low-stakes walk through 16 areas of your brand and marketing foundation. No right answers — just where things stand today, in your own words.</p>
 
       <label class="field-label" for="user-name-input">Your name</label>
       <input id="user-name-input" class="field-input" type="text" placeholder="e.g. Jane Smith">
@@ -627,27 +627,27 @@
       header: "Storytelling Strategy",
       question: "Do you know how your brand's story should translate into ongoing content creation and earned media?" },
 
-    { id: "brand-advertising", side: "Reach", pillar: "Future Demand",
-      header: "Brand Advertising",
-      question: "Are you investing in visibility and resonance at scale, even with people who aren\u2019t ready to buy yet?" },
-    { id: "key-brand-assets", side: "Reach", pillar: "Future Demand",
-      header: "Key Brand Assets",
-      question: "Do you have the pillar assets, like your web presence, video, and owned IP, that deepen the brand over time rather than just promote it?" },
-    { id: "integrated-content", side: "Reach", pillar: "Future Demand",
-      header: "Integrated Content",
-      question: "Are your content, social, and earned media efforts actually coordinated, or living in separate lanes?" },
-    { id: "memorable-experiences", side: "Reach", pillar: "Future Demand",
-      header: "Memorable Experiences",
+    { id: "brand-promotion", side: "Reach", pillar: "Future Demand",
+      header: "Brand Promotion",
+      question: "Are you investing in paid media and creative that makes your brand visible and resonant, even with people who aren\u2019t ready to buy yet?" },
+    { id: "brand-assets", side: "Reach", pillar: "Future Demand",
+      header: "Brand Assets",
+      question: "Do you have the pillar assets \u2014 web presence, video, and owned IP \u2014 that define and deepen your brand over time?" },
+    { id: "brand-content", side: "Reach", pillar: "Future Demand",
+      header: "Brand Content",
+      question: "Do you have a consistent flow of thought leadership, earned media, and social content that builds authority and keeps you present?" },
+    { id: "brand-experience", side: "Reach", pillar: "Future Demand",
+      header: "Brand Experience",
       question: "Do you have built-in experiences that make you memorable \u2014 customer engagement processes, signature moments, or scheduled events that make them feel something?" },
 
-    { id: "performance-advertising", side: "Reach", pillar: "Current Demand",
-      header: "Performance Advertising",
-      question: "Are you effectively engaging people who are already in-market, with the response and optimization to back it up?" },
+    { id: "product-promotion", side: "Reach", pillar: "Current Demand",
+      header: "Product Promotion",
+      question: "Are you effectively reaching people who are already in-market with the right offers, nurturing, and optimization to convert them?" },
     { id: "digital-discovery", side: "Reach", pillar: "Current Demand",
       header: "Digital Discovery",
       question: "Can people actually find you, and is your web presence built to be found in the first place?" },
-    { id: "powerful-entry-points", side: "Reach", pillar: "Current Demand",
-      header: "Powerful Entry Points",
+    { id: "entry-points", side: "Reach", pillar: "Current Demand",
+      header: "Entry Points",
       question: "Do you have clear, low-friction ways for someone to take a first step with you, backed by the proof that makes saying yes feel safe?" },
     { id: "sales-enablement", side: "Reach", pillar: "Current Demand",
       header: "Sales Enablement",
@@ -993,9 +993,8 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbxbUuirvAIyMhwjK8e-6NAy3UEOCnn_X51Gje1eaUziFd09ixsYZNKvaPFwkrhWwIKw/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbx0gXY3gwGEkN-KVdrhh1-puulEUv977zBVcdEcyieO8EIY5Wnv59SgF-pjeV3Z6GFE/exec";
 
-  
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
     if (!SHEETS_URL || SHEETS_URL === "YOUR_APPS_SCRIPT_URL_HERE") return;
