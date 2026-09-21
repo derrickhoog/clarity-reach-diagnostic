@@ -229,8 +229,16 @@
     font-family: 'Host Grotesk', sans-serif;
     font-weight: 700;
     font-size: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: var(--ink);
+  }
+  .card-tagline {
+    font-family: 'Host Grotesk', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--structure);
+    margin-bottom: 12px;
   }
   .card-question {
     font-family: 'Host Grotesk', sans-serif;
@@ -508,8 +516,8 @@
   <!-- ===================== START SCREEN ===================== -->
   <div id="screen-start" class="screen">
     <div class="start-wrap">
-      <div class="start-eyebrow grotesk">Clarity &amp; Reach</div>
-      <div class="start-title">Growth Ingredients Review</div>
+      <div class="start-eyebrow grotesk">Growth Ingredients</div>
+      <div class="start-title">Clarity & Reach</div>
       <div style="width:48px;height:3px;background:#DD3434;margin:18px 0 22px;"></div>
       <p class="start-body">A fast, low-stakes walk through 12 areas of your brand and marketing foundation. No right answers — just where things stand today, in your own words.</p>
 
@@ -601,43 +609,45 @@
 
   // ---------- DATA ----------
   var ITEMS = [
-    { id: "industry", side: "Clarity", pillar: "",
-      header: "Industry",
-      question: "Do you have a clear handle on what\u2019s shaping your industry right now: the trends moving it, what\u2019s driving it, and where it\u2019s headed?" },
-    { id: "market", side: "Clarity", pillar: "",
-      header: "Market",
-      question: "Do you deeply understand your audience and the alternatives they\u2019re weighing \u2014 who they are, what drives them, and where you stand relative to their options?" },
-    { id: "business", side: "Clarity", pillar: "",
-      header: "Business",
-      question: "Have you defined the fundamentals of your business in simple, concrete terms: your value, your model, and the assumptions behind them?" },
-    { id: "brand", side: "Clarity", pillar: "",
-      header: "Brand",
-      question: "Could you clearly articulate what you believe in and where you stand, in a way that\u2019s consistent no matter who\u2019s telling the story?" },
-    { id: "messaging", side: "Clarity", pillar: "",
-      header: "Messaging",
-      question: "Do you have the right words for what you offer, organized in a way that makes your value obvious at every level?" },
-    { id: "visuals", side: "Clarity", pillar: "",
-      header: "Visuals",
-      question: "Is your visual identity recognizable and memorable, or could it disappear into the wallpaper of your category?" },
+    { id: "industry-perspective", side: "Clarity", pillar: "Business Perspective",
+      header: "Industry Perspective", tagline: "Defining the space.",
+      question: "Do you have a clear read on the space you\u2019re competing in \u2014 its history, where it\u2019s trending, and what\u2019s driving it?" },
+    { id: "market-perspective", side: "Clarity", pillar: "Business Perspective",
+      header: "Market Perspective", tagline: "Defining the opportunity.",
+      question: "Do you clearly understand the opportunity \u2014 who you\u2019re for, who else is competing for them, and what makes your position defensible?" },
+    { id: "operating-perspective", side: "Clarity", pillar: "Business Perspective",
+      header: "Operating Perspective", tagline: "Defining the work.",
+      question: "Have you defined the actual work \u2014 your priorities, the resources it requires, and the assumptions it rests on?" },
 
-    { id: "storytelling", side: "Reach", pillar: "",
-      header: "Storytelling",
-      question: "Are you investing in the creative and media that make your brand visible and attractive to people who aren\u2019t thinking about you yet?" },
-    { id: "authority", side: "Reach", pillar: "",
-      header: "Authority",
-      question: "Are you consistently producing and distributing thought leadership, earned media, and social content that builds your credibility over time?" },
-    { id: "experience", side: "Reach", pillar: "",
-      header: "Experience",
-      question: "Do you have built-in experiences that make you memorable \u2014 customer engagement processes, signature moments, or scheduled events that make them feel something?" },
-    { id: "promotion", side: "Reach", pillar: "",
-      header: "Promotion",
-      question: "Are you reaching in-market audiences with the right entry points, proof, and targeted media to make choosing you feel easy and obvious?" },
-    { id: "discovery", side: "Reach", pillar: "",
-      header: "Discovery",
-      question: "Can people actually find you and learn about you effectively \u2014 is your web presence and search visibility built to be found?" },
-    { id: "sales", side: "Reach", pillar: "",
-      header: "Sales",
-      question: "Do your teams have the collateral and systems they need to actually win the customers in front of them?" }
+    { id: "brand-definition", side: "Clarity", pillar: "Brand Perspective",
+      header: "Brand Definition", tagline: "Defining the story.",
+      question: "Have you defined your brand\u2019s story \u2014 your positioning, what you stand for, and the personality behind it?" },
+    { id: "brand-expression", side: "Clarity", pillar: "Brand Perspective",
+      header: "Brand Expression", tagline: "Defining the standards.",
+      question: "Do you have clear standards for how your brand shows up verbally, visually, and experientially?" },
+    { id: "brand-assets", side: "Clarity", pillar: "Brand Perspective",
+      header: "Brand Assets", tagline: "Defining the delivery.",
+      question: "Do you have the core delivery infrastructure \u2014 web presence, video, and collateral \u2014 that makes your brand accessible and credible?" },
+
+    { id: "brand-advertising", side: "Reach", pillar: "Future Demand",
+      header: "Brand Advertising", tagline: "Making it easy to remember.",
+      question: "Are you investing in the kind of advertising that makes you easy to remember \u2014 mass reach, distinctive creative, and consistent presence?" },
+    { id: "brand-alignment", side: "Reach", pillar: "Future Demand",
+      header: "Brand Alignment", tagline: "Making it easy to trust.",
+      question: "Are you showing up in the right partnerships, events, and collaborations that make you easy to trust?" },
+    { id: "brand-authority", side: "Reach", pillar: "Future Demand",
+      header: "Brand Authority", tagline: "Making it easy to believe.",
+      question: "Are you producing the content, earning the media coverage, and maintaining the social presence that makes you easy to believe?" },
+
+    { id: "product-advertising", side: "Reach", pillar: "Current Demand",
+      header: "Product Advertising", tagline: "Making it easy to consider.",
+      question: "Are you running the targeted advertising and offers that make it easy for in-market audiences to consider you?" },
+    { id: "product-discovery", side: "Reach", pillar: "Current Demand",
+      header: "Product Discovery", tagline: "Making it easy to find.",
+      question: "Can people find you when they\u2019re looking \u2014 through search, your web presence, and the right entry points?" },
+    { id: "product-conversion", side: "Reach", pillar: "Current Demand",
+      header: "Product Conversion", tagline: "Making it easy to buy.",
+      question: "Do you have the journey, systems, and enablement in place that make it easy for someone to actually buy?" }
   ];
 
   var SCALE = [1, 2, 3, 4, 5];
@@ -740,6 +750,13 @@
     header.className = "card-header grotesk";
     header.textContent = item.header;
     card.appendChild(header);
+
+    if (item.tagline) {
+      var tagline = document.createElement("div");
+      tagline.className = "card-tagline";
+      tagline.textContent = item.tagline;
+      card.appendChild(tagline);
+    }
 
     var question = document.createElement("div");
     question.className = "card-question";
@@ -983,7 +1000,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbzojreIqAFF5gIZL0Iodi5aYVaf0QlEUVb9zQ6LeyEpjpLf-gR5PRPbruZAFCQQARap/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwcTrXEQkFYAomVwXwVjFG9D5Cte5BPJj5Bl2Cvck1MGOyK0H7n8ULub8Uwf4gv_Mg/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
