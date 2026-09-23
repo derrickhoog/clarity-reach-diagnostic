@@ -516,8 +516,8 @@
   <!-- ===================== START SCREEN ===================== -->
   <div id="screen-start" class="screen">
     <div class="start-wrap">
-      <div class="start-eyebrow grotesk">Growth Ingredients</div>
-      <div class="start-title">Clarity & Reach</div>
+      <div class="start-eyebrow grotesk">Clarity &amp; Reach</div>
+      <div class="start-title">Growth Ingredients Review</div>
       <div style="width:48px;height:3px;background:#DD3434;margin:18px 0 22px;"></div>
       <p class="start-body">A fast, low-stakes walk through 12 areas of your brand and marketing foundation. No right answers — just where things stand today, in your own words.</p>
 
@@ -609,44 +609,44 @@
 
   // ---------- DATA ----------
   var ITEMS = [
-    { id: "industry-perspective", side: "Clarity", pillar: "Business Perspective",
-      header: "Industry Perspective", tagline: "Defining the space.",
+    { id: "industry", side: "Clarity", pillar: "Business Foundations",
+      header: "Industry", tagline: "Defining the space.",
       question: "Do you have a clear read on the space you\u2019re competing in \u2014 its history, where it\u2019s trending, and what\u2019s driving it?" },
-    { id: "market-perspective", side: "Clarity", pillar: "Business Perspective",
-      header: "Market Perspective", tagline: "Defining the opportunity.",
+    { id: "market", side: "Clarity", pillar: "Business Foundations",
+      header: "Market", tagline: "Defining the opportunity.",
       question: "Do you clearly understand the ideal audience profile, the competitive landscape, and what makes your advantage defensible?" },
-    { id: "operating-perspective", side: "Clarity", pillar: "Business Perspective",
-      header: "Operating Perspective", tagline: "Defining the work.",
-      question: "Have you defined the strategic priorities, the resources they requires, and the assumptions they rests on?" },
+    { id: "model", side: "Clarity", pillar: "Business Foundations",
+      header: "Model", tagline: "Defining the work.",
+      question: "Have you defined the strategic priorities, the resources they require, and the assumptions they rest on?" },
 
-    { id: "brand-definition", side: "Clarity", pillar: "Brand Perspective",
-      header: "Brand Definition", tagline: "Defining the story.",
-      question: "Have you defined your brand\u2019s story \u2014 your positioning, what you stand for, and the personality behind it?" },
-    { id: "brand-expression", side: "Clarity", pillar: "Brand Perspective",
-      header: "Brand Expression", tagline: "Defining the standards.",
+    { id: "identity", side: "Clarity", pillar: "Brand Definition",
+      header: "Identity", tagline: "Defining the story.",
+      question: "Have you defined your brand\u2019s identity \u2014 what you stand for and why you should be chosen?" },
+    { id: "expression", side: "Clarity", pillar: "Brand Definition",
+      header: "Expression", tagline: "Defining the standards.",
       question: "Do you have clear standards for how your brand shows up verbally, visually, and experientially?" },
-    { id: "brand-assets", side: "Clarity", pillar: "Brand Perspective",
-      header: "Brand Assets", tagline: "Defining the delivery.",
+    { id: "assets", side: "Clarity", pillar: "Brand Definition",
+      header: "Assets", tagline: "Defining the delivery.",
       question: "Do you have the core delivery infrastructure \u2014 web presence, video, and collateral \u2014 that makes your brand accessible and credible?" },
 
-    { id: "brand-advertising", side: "Reach", pillar: "Future Demand",
-      header: "Brand Advertising", tagline: "Making it easy to remember.",
-      question: "Are you investing in the kind of advertising that makes you easy to remember \u2014 mass reach, distinctive creative, and consistent presence?" },
-    { id: "brand-alignment", side: "Reach", pillar: "Future Demand",
-      header: "Brand Alignment", tagline: "Making it easy to trust.",
-      question: "Are you showing up in the right partnerships, events, and collaborations that make you easy to trust?" },
-    { id: "brand-authority", side: "Reach", pillar: "Future Demand",
-      header: "Brand Authority", tagline: "Making it easy to believe.",
+    { id: "advertising-brand", side: "Reach", pillar: "Brand Building",
+      header: "Advertising", tagline: "Building memories.",
+      question: "Are you investing in the kind of advertising that builds memory \u2014 compelling creative, meaningful mass media reach, and emotive campaigns that stick?" },
+    { id: "authority", side: "Reach", pillar: "Brand Building",
+      header: "Authority", tagline: "Building influence.",
       question: "Are you producing the content, earning the media coverage, and maintaining the social presence that makes you easy to believe?" },
+    { id: "alignment", side: "Reach", pillar: "Brand Building",
+      header: "Alignment", tagline: "Building trust.",
+      question: "Are you showing up in the right sponsorships, events, and creator collaborations that build trust over time?" },
 
-    { id: "product-advertising", side: "Reach", pillar: "Current Demand",
-      header: "Product Advertising", tagline: "Making it easy to consider.",
-      question: "Are you running the targeted advertising and offers that make it easy for in-market audiences to consider you?" },
-    { id: "product-discovery", side: "Reach", pillar: "Current Demand",
-      header: "Product Discovery", tagline: "Making it easy to find.",
-      question: "Can people find you when they\u2019re looking \u2014 through search, your web presence, and the right entry points?" },
-    { id: "product-conversion", side: "Reach", pillar: "Current Demand",
-      header: "Product Conversion", tagline: "Making it easy to buy.",
+    { id: "advertising-product", side: "Reach", pillar: "Product Promotion",
+      header: "Advertising", tagline: "Making it easy to consider.",
+      question: "Are you running the targeted advertising and optimized offers that make it easy for in-market audiences to consider you?" },
+    { id: "discovery", side: "Reach", pillar: "Product Promotion",
+      header: "Discovery", tagline: "Making it easy to find.",
+      question: "Can people find you when they\u2019re looking \u2014 through search, SEO, AEO, and the right category entry points?" },
+    { id: "conversion", side: "Reach", pillar: "Product Promotion",
+      header: "Conversion", tagline: "Making it easy to buy.",
       question: "Do you have the journey, systems, and enablement in place that make it easy for someone to actually buy?" }
   ];
 
@@ -1000,7 +1000,7 @@
   });
 
   // ---------- GOOGLE SHEETS SUBMISSION ----------
-  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbwcTrXEQkFYAomVwXwVjFG9D5Cte5BPJj5Bl2Cvck1MGOyK0H7n8ULub8Uwf4gv_Mg/exec";
+  var SHEETS_URL = "https://script.google.com/macros/s/AKfycbyyErH46Oz1X5Ux0NBchcaIna-E2PxCR-K1oE5acGkoFgPLdlV50gNZnCu8Frfw6DiI/exec";
 
   function submitToSheets() {
     var statusEl = document.getElementById("sheets-status");
